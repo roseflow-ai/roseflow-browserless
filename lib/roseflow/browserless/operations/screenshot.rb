@@ -13,6 +13,10 @@ module Roseflow
           "/screenshot"
         end
 
+        def timeout
+          60
+        end
+
         def body
           {
             url: url,

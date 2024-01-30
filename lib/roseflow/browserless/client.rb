@@ -18,14 +18,25 @@ module Roseflow
         post(operation)
       end
 
+      def content(url)
+        operation = Operations::Content.new(url: url)
+        post(operation)
+      end
+
       def stats(url)
         operation = Operations::Stats.new(url: url)
+        post(operation)
+      end
+
+      def performance(url)
+        operation = Operations::Performance.new(url: url)
         post(operation)
       end
 
       def post(operation, &block)
         response = connection.post(operation.path) do |request|
           request.body = operation.body
+          request.options.timeout = operation&.timeout || 60
         end
 
         response unless block_given?

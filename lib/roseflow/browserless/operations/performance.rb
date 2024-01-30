@@ -5,11 +5,14 @@ require "literal"
 module Roseflow
   module Browserless
     module Operations
-      class Stats < Literal::Struct
+      class Performance < Literal::Struct
+        CATEGORIES = ["accessibility", "performance", "seo", "pwa", "best practices"].freeze
+
         attribute :url, String
+        attribute :categories, Array, default: CATEGORIES
 
         def path
-          "/stats"
+          "/performance"
         end
 
         def timeout
@@ -21,9 +24,7 @@ module Roseflow
             url: url,
             config: {
               extends: "lighthouse:default",
-              settings: {
-                onlyCategories: %w[performance seo],
-              },
+              onlyCategories: categories
             },
           }
         end
